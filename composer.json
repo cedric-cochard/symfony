@@ -10,7 +10,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.14",
         "phpdocumentor/reflection-docblock": "^5.3",
-        "sensio/framework-extra-bundle": "^6.1",
+        "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.1.*",
         "symfony/console": "5.1.*",
         "symfony/doctrine-messenger": "5.1.*",

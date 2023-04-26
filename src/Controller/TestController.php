@@ -7,7 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TestController {
-
+  /**
+   *@Route("/", name="index")
+   *
+   */
   public function index() {
     dd("ca fonctionne !");
   }
