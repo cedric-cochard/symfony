@@ -6,6 +6,7 @@ use App\Taxes\Calculator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class TestController {
 
@@ -19,7 +20,8 @@ class TestController {
    *@Route("/", name="index")
    *
    */
-  public function index() {
+  public function index(Environment $twig) {
+    dump($twig);
     $tva = $this->calculator->calcul(200);
     dump($tva);
     dd("ca fonctionne !");
