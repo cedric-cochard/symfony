@@ -16,13 +16,11 @@ class HelloController {
     
     $html = $twig->render("hello.html.twig", [
       "prenom" => $firstname,
-      "age" => 33,
-      "prenoms" => [
-        "Kévina",
-        "Anais",
-        "Brigitte",
-        "Amélie",
-        "Cédric"
+      "ages" => [
+        13,
+        18, 
+        28,
+        16
       ]
     ]);
     
