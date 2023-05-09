@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Form\DataTransformer\CentimesTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,7 +30,8 @@ class ProductType extends AbstractType
             ])
             ->add("price", MoneyType::class, [
                 "label" => "prix du produit",
-                "attr" => ["placeholder" => "Tapez le prix du produit en €"]
+                "attr" => ["placeholder" => "Tapez le prix du produit en €"],
+                "divisor" => 100
             ])
             ->add("picture", UrlType::class, [
                 "label" => "Image du produit",
@@ -44,6 +47,22 @@ class ProductType extends AbstractType
                     return strtoupper($category->getName());
                 } 
             ]); 
+        
+        // $builder->get("price")->addModelTransformer(new CentimesTransformer);
+        //     function($value) {
+        //         if ($value === null) {
+        //           return;
+        //         }
+        //         return $value / 100;
+        //     },
+        //     function($value) {
+        //         if ($value === null) {
+        //             return;
+        //         }
+        //         return $value * 100;
+                
+        //     }
+        // ));
         
     }
 
