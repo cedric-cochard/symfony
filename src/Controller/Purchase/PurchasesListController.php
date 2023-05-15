@@ -17,7 +17,7 @@ class PurchasesListController extends AbstractController {
 
   /**
    * Undocumented function
-   *@Route("/purchases"), name="purchase_index"
+   *@Route("/purchases", name="purchase_index")
    *@IsGranted("ROLE_USER", message="Vous devez être connecté pour accèder à vos commandes")
    */
   public function index() {
