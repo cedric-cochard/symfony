@@ -24,7 +24,7 @@ class PurchasePersister extends AbstractController {
     public function storePurchase(Purchase $purchase) {
 
       $purchase->setUser($this->getUser())
-        ->setPurchaseAt(new DateTimeImmutable())
+        // ->setPurchaseAt(new DateTimeImmutable())
         ->setTotal($this->cartService->getTotal());
 
     $this->em->persist($purchase);
