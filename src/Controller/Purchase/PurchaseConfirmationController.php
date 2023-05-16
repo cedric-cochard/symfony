@@ -7,6 +7,7 @@ use App\Entity\Purchase;
 use App\Cart\CartService;
 use App\Entity\PurchaseItem;
 use App\Form\CartConfirmationType;
+use App\Purchase\PurchasePersister;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,12 +19,14 @@ class PurchaseConfirmationController extends AbstractController {
 
   protected $cartService;
   protected $em;
+  protected $persister;
 
 
-  public function __construct(CartService $cartService, EntityManagerInterface $em)
+  public function __construct(CartService $cartService, EntityManagerInterface $em, PurchasePersister $persister)
   {
     $this->cartService = $cartService;
     $this->em = $em;
+    $this->persister = $persister;
   }
 
   /**
@@ -43,9 +46,6 @@ class PurchaseConfirmationController extends AbstractController {
       
     }
 
-    $user = $this->getUser();
-
-
     $cartItems = $this->cartService->getDetailledCartItems();
 
     if ($cartItems === 0) {
@@ -57,31 +57,12 @@ class PurchaseConfirmationController extends AbstractController {
     /** @var Purchase */
     $purchase = $form->getData();
     
-    $purchase->setUser($user)
-        ->setPurchaseAt(new DateTimeImmutable())
-        ->setTotal($this->cartService->getTotal());
+    
+    $this->persister->storePurchase($purchase);
+    
 
-    $this->em->persist($purchase);
-
-    foreach ($this->cartService->getDetailledCartItems() as $cartItem) {
-      $purchaseItem = new PurchaseItem;
-      $purchaseItem->setPurchase($purchase)
-              ->setProduct($cartItem->product)
-              ->setProductName($cartItem->product->getName())
-              ->setQuantity($cartItem->quantity)
-              ->setTotal($cartItem->getTotal())
-              ->setProductPrice($cartItem->product->getPrice());
-
-      $this->em->persist($purchaseItem);
-
-    }
-
-    $this->em->flush();
-
-    $this->cartService->empty();
-
-    $this->addFlash("success", "La commande a bien été enregistré");
-
-    return $this->redirectToRoute("purchase_index");
+    return $this->redirectToRoute("purchase_payment_form", [
+      "id" => $purchase->getId()
+    ]);
   }
 }
